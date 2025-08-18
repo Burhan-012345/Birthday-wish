@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Music Player</title>
+    <style>
+        body { 
+            display: none; 
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        .music-controls {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px;
+        }
+        .music-controls .control-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: var(--primary-color);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .music-controls .control-btn:hover {
+            transform: scale(1.05);
+        }
+        .volume-control {
+            background: rgba(255,255,255,0.9);
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            transition: opacity 0.3s ease;
+        }
+        .volume-control.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        #musicVolume {
+            width: 100px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <audio id="persistentAudio" loop>
+        <source src="assets/mine.mp3" type="audio/mpeg">
+        Your browser doesn't support audio
+    </audio>
+    
+    <div class="music-controls">
+        <button id="toggleMusic" class="control-btn">
+            <i class="fas fa-music"></i>
+            <span>Music: On</span>
+        </button>
+        <div class="volume-control hidden">
+            <input type="range" id="musicVolume" min="0" max="1" step="0.01" value="0.5">
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <script>
+        const audio = document.getElementById('persistentAudio');
+        const toggleBtn = document.getElementById('toggleMusic');
+        const volumeControl = document.querySelector('.volume-control');
+        const volumeSlider = document.getElementById('musicVolume');
+        
+        // Set default volume
+        audio.volume = 0.5;
+        
+        // Load saved state
+        const wasPlaying = localStorage.getItem('musicPlaying') === 'true';
+        const savedVolume = parseFloat(localStorage.getItem('musicVolume')) || 0.5;
+        const currentTime = parseFloat(localStorage.getItem('musicCurrentTime')) || 0;
+        
+        audio.currentTime = currentTime;
+        audio.volume = savedVolume;
+        volumeSlider.value = savedVolume;
+
+        // Function to handle play attempts
+        function attemptPlay() {
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        localStorage.setItem('musicPlaying', 'true');
+                        updateToggleButton(true);
+                    })
+                    .catch(error => {
+                        console.log("Autoplay blocked, waiting for user interaction");
+                        localStorage.setItem('musicPlaying', 'false');
+                        updateToggleButton(false);
+                        
+                        // Create a global play function that pages can call after user interaction
+                        window.enableMusic = function() {
+                            audio.play()
+                                .then(() => {
+                                    localStorage.setItem('musicPlaying', 'true');
+                                    updateToggleButton(true);
+                                    window.parent.postMessage({action: 'musicStatus', playing: true}, '*');
+                                })
+                                .catch(e => console.error("Playback failed:", e));
+                        };
+                    });
+            }
+        }
+
+        // Initial play attempt
+        if (wasPlaying) attemptPlay();
+
+        // Update toggle button state
+        function updateToggleButton(playing) {
+            toggleBtn.innerHTML = playing 
+                ? '<i class="fas fa-pause"></i> <span>Music: On</span>'
+                : '<i class="fas fa-play"></i> <span>Music: Off</span>';
+        }
+
+        // Toggle music playback
+        toggleBtn.addEventListener('click', function() {
+            if (audio.paused) {
+                audio.play()
+                    .then(() => {
+                        localStorage.setItem('musicPlaying', 'true');
+                        updateToggleButton(true);
+                        window.parent.postMessage({action: 'musicStatus', playing: true}, '*');
+                    })
+                    .catch(e => console.error("Playback failed:", e));
+            } else {
+                audio.pause();
+                localStorage.setItem('musicPlaying', 'false');
+                updateToggleButton(false);
+                window.parent.postMessage({action: 'musicStatus', playing: false}, '*');
+            }
+        });
+
+        // Toggle volume control
+        toggleBtn.addEventListener('mouseenter', function() {
+            volumeControl.classList.remove('hidden');
+        });
+        
+        volumeControl.addEventListener('mouseleave', function() {
+            volumeControl.classList.add('hidden');
+        });
+
+        // Handle volume change
+        volumeSlider.addEventListener('input', function() {
+            audio.volume = this.value;
+            localStorage.setItem('musicVolume', this.value);
+        });
+
+        // Handle play/pause commands from pages
+        window.addEventListener('message', (e) => {
+            if (e.data.action === 'play') {
+                audio.play()
+                    .then(() => {
+                        localStorage.setItem('musicPlaying', 'true');
+                        updateToggleButton(true);
+                        window.parent.postMessage({action: 'musicStatus', playing: true}, '*');
+                    })
+                    .catch(e => console.error("Playback failed:", e));
+            } else if (e.data.action === 'pause') {
+                audio.pause();
+                localStorage.setItem('musicPlaying', 'false');
+                updateToggleButton(false);
+                window.parent.postMessage({action: 'musicStatus', playing: false}, '*');
+            } else if (e.data.action === 'toggle') {
+                if (audio.paused) {
+                    audio.play()
+                        .then(() => {
+                            localStorage.setItem('musicPlaying', 'true');
+                            updateToggleButton(true);
+                            window.parent.postMessage({action: 'musicStatus', playing: true}, '*');
+                        })
+                        .catch(e => console.error("Playback failed:", e));
+                } else {
+                    audio.pause();
+                    localStorage.setItem('musicPlaying', 'false');
+                    updateToggleButton(false);
+                    window.parent.postMessage({action: 'musicStatus', playing: false}, '*');
+                }
+            } else if (e.data.action === 'setVolume') {
+                audio.volume = e.data.volume;
+                volumeSlider.value = e.data.volume;
+                localStorage.setItem('musicVolume', e.data.volume);
+            }
+        });
+
+        // Save progress periodically
+        setInterval(() => {
+            localStorage.setItem('musicCurrentTime', audio.currentTime);
+        }, 1000);
+
+        // Notify parent page when ready
+        window.parent.postMessage({action: 'musicPlayerReady'}, '*');
+    </script>
+</body>
+</html>

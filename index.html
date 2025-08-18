@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Madam Jii!</title>
+    <meta name="description" content="An immersive 3D birthday experience">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.10.2/lottie.min.js"></script>
+</head>
+<body>
+    <!-- WebGL Background -->
+    <canvas id="webglBackground"></canvas>
+    
+    <!-- 3D Gift Box -->
+    <div class="gift-box-3d" id="giftBox">
+        <div class="gift-lid"></div>
+        <div class="gift-body"></div>
+        <div class="gift-bow"></div>
+        <div class="gift-sparkles"></div>
+    </div>
+
+
+
+    <!-- Music Player -->
+    <iframe id="musicFrame" src="music-player.html" style="display:none;"></iframe>
+
+    <div class="loader">
+        <div id="lottieLoader"></div>
+        <p>Preparing your magical experience...</p>
+    </div>
+
+    <div class="theme-selector">
+        <button class="theme-option" data-theme="default"></button>
+        <button class="theme-option" data-theme="purple"></button>
+        <button class="theme-option" data-theme="blue"></button>
+        <button class="theme-option" data-theme="gold"></button>
+        <button class="theme-option" data-theme="dark"></button>
+    </div>
+
+    <header class="hero">
+        <div class="parallax-bg"></div>
+        <div class="confetti-particle"></div>
+        <div class="confetti-particle"></div>
+        <div class="confetti-particle"></div>
+        
+        <h1 class="animated-text">Happy Birthday <span class="name-highlight">Madam Jii</span>!</h1>
+        <p class="subtitle">An extraordinary celebration for an extraordinary person</p>
+        
+        <div class="interactive-balloons">
+            <div class="balloon balloon1" data-speed="2"></div>
+            <div class="balloon balloon2" data-speed="3"></div>
+            <div class="balloon balloon3" data-speed="2.5"></div>
+        </div>
+    </header>
+
+    <section class="birthday-wishes">
+        <div class="wish-container">
+            <div class="wish-card animated-wish">
+                <div class="wish-badge">
+                    <div id="lottieHeart"></div>
+                </div>
+                <h2>Birthday Wishes</h2>
+                <div class="wish-content">
+                    <p>Dear <span class="name-highlight">Madam Jii</span>,</p>
+                    <p>On this special day, we celebrate the wonderful person you are.</p>
+                    <p>May this year bring you:</p>
+                    <ul class="wish-list">
+                        <li><i class="fas fa-smile"></i> Endless happiness and joy</li>
+                        <li><i class="fas fa-heartbeat"></i> Good health and prosperity</li>
+                        <li><i class="fas fa-trophy"></i> Success in all your endeavors</li>
+                        <li><i class="fas fa-laugh-squint"></i> Love and laughter every day</li>
+                    </ul>
+                    <div class="wish-signature">
+                        <p>With love,</p>
+                        <p class="signature">Your Admirers</p>
+                    </div>
+                </div>
+                <div class="wish-flower"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="ai-poem-section">
+        <div class="poem-container">
+            <h2 class="section-title">AI-Generated Birthday Poem</h2>
+            <div class="poem-card">
+                <div class="poem-content" id="poemText">
+                    <div class="loader-poem">
+                        <div class="dot-flashing"></div>
+                        <p>Generating your personalized poem...</p>
+                    </div>
+                </div>
+                <button id="generatePoem" class="control-btn glow-effect">
+                    <i class="fas fa-magic"></i>
+                    Generate New Poem
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section class="guestbook-section">
+        <h2 class="section-title">Virtual Guestbook</h2>
+        <div class="guestbook-container">
+            <div class="guestbook-form">
+                <input type="text" id="guestName" placeholder="Your Name">
+                <textarea id="guestMessage" placeholder="Leave your birthday wish..."></textarea>
+                <button id="submitGuestbook" class="control-btn">
+                    <i class="fas fa-book-open"></i>
+                    Sign Guestbook
+                </button>
+            </div>
+            <div class="guestbook-entries" id="guestbookEntries"></div>
+        </div>
+    </section>
+
+    <div class="navigation-buttons">
+        <a href="cake.html" class="nav-btn cake-btn">
+            <i class="fas fa-birthday-cake"></i>
+            <span>3D Cake</span>
+        </a>
+        <a href="gallery.html" class="nav-btn gallery-btn">
+            <i class="fas fa-images"></i>
+            <span>Photo Gallery</span>
+        </a>
+        <a href="message.html" class="nav-btn message-btn">
+            <i class="fas fa-envelope"></i>
+            <span>Video Messages</span>
+        </a>
+        <a href="memory.html" class="nav-btn game-btn">
+            <i class="fas fa-gamepad"></i>
+            <span>Birthday Game</span>
+        </a>
+    </div>
+
+    <div class="social-sharing">
+        <button id="shareBtn" class="control-btn glow-effect">
+            <i class="fas fa-share-alt"></i>
+            Share This Celebration
+        </button>
+        <div class="social-buttons">
+            <button class="social-btn facebook"><i class="fab fa-facebook-f"></i></button>
+            <button class="social-btn twitter"><i class="fab fa-twitter"></i></button>
+            <button class="social-btn whatsapp"><i class="fab fa-whatsapp"></i></button>
+        </div>
+    </div>
+
+    <div class="floating-hearts"></div>
+    <div class="particle-container" id="particles"></div>
+    <div id="arOverlay" class="ar-overlay"></div>
+    <script src="js/script.js"></script>
+    <script src="js/ar-card.js"></script>
+</body>
+</html>

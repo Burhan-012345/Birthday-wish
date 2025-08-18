@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Cake | Madam Jii's Birthday</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cake.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/party-js@latest/bundle/party.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Music Player Iframe -->
+    <iframe id="musicFrame" src="music-player.html"></iframe>
+
+    <div class="cake-container">
+        <div class="cake-header">
+            <h1 class="page-title">Virtual Birthday Cake</h1>
+            <p class="page-subtitle">Make a wish and interact with the cake!</p>
+        </div>
+        
+        <div class="cake-interactive">
+            <!-- 2D Cake -->
+            <div class="cake">
+                <div class="plate"></div>
+                <div class="layer layer-bottom"></div>
+                <div class="layer layer-middle"></div>
+                <div class="layer layer-top"></div>
+                <div class="icing"></div>
+                <div class="drip drip1"></div>
+                <div class="drip drip2"></div>
+                <div class="drip drip3"></div>
+                <div class="candle">
+                    <div class="flame"></div>
+                </div>
+                <div class="sparkles">
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                    <div class="sparkle"></div>
+                </div>
+                <div class="cake-piece"></div>
+                <div class="cake-toppings"></div>
+            </div>
+            
+            <div class="cake-controls">
+                <button id="toggleCandle" class="control-btn">
+                    <i class="fas fa-fire"></i>
+                    <span class="btn-text">Blow Out Candle</span>
+                </button>
+                <button id="cutCake" class="control-btn">
+                    <i class="fas fa-utensils"></i>
+                    Cut a Piece
+                </button>
+                <button id="decorateCake" class="control-btn">
+                    <i class="fas fa-paint-brush"></i>
+                    Decorate
+                </button>
+                <button id="resetCake" class="control-btn secondary-btn">
+                    <i class="fas fa-redo"></i>
+                    Reset
+                </button>
+            </div>
+            
+            <div class="cake-message hidden">
+                <p>Your wish has been sent to the universe!</p>
+                <div class="wish-confetti"></div>
+            </div>
+            
+            <div class="decoration-options hidden">
+                <h3>Customize Your Cake</h3>
+                <div class="decoration-grid">
+                    <div class="decoration-option" data-color="#ff6b6b">
+                        <div class="color-preview" style="background-color: #ff6b6b;"></div>
+                        <span>Pink</span>
+                    </div>
+                    <div class="decoration-option" data-color="#ffde59">
+                        <div class="color-preview" style="background-color: #ffde59;"></div>
+                        <span>Yellow</span>
+                    </div>
+                    <div class="decoration-option" data-color="#a5ffd6">
+                        <div class="color-preview" style="background-color: #a5ffd6;"></div>
+                        <span>Mint</span>
+                    </div>
+                    <div class="decoration-option" data-color="#9c27b0">
+                        <div class="color-preview" style="background-color: #9c27b0;"></div>
+                        <span>Purple</span>
+                    </div>
+                    <div class="decoration-option" data-topping="sprinkles">
+                        <div class="topping-preview" style="background-image: url('assets/sprinkles.png');"></div>
+                        <span>Sprinkles</span>
+                    </div>
+                    <div class="decoration-option" data-topping="flowers">
+                        <div class="topping-preview" style="background-image: url('assets/flowers.png');"></div>
+                        <span>Flowers</span>
+                    </div>
+                    <div class="decoration-option" data-topping="chocolate">
+                        <div class="topping-preview" style="background-image: url('assets/chocolate.png');"></div>
+                        <span>Chocolate</span>
+                    </div>
+                    <div class="decoration-option" data-topping="fruit">
+                        <div class="topping-preview" style="background-image: url('assets/fruit.png');"></div>
+                        <span>Fruit</span>
+                    </div>
+                </div>
+                <div class="decoration-actions">
+                    <button id="saveDesign" class="control-btn">
+                        <i class="fas fa-save"></i>
+                        Save Design
+                    </button>
+                    <button id="cancelDesign" class="control-btn secondary-btn">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cake-wish-form">
+            <h3>Make a Birthday Wish</h3>
+            <textarea id="wishText" placeholder="Type your wish here..."></textarea>
+            <button id="submitWish" class="control-btn">
+                <i class="fas fa-star"></i>
+                Make a Wish
+            </button>
+        </div>
+        
+        <div class="page-navigation">
+            <a href="index.html" class="nav-btn">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </a>
+            <a href="videos.html" class="nav-btn next-btn">
+                <i class="fas fa-arrow-right"></i>
+                View Videos
+            </a>
+        </div>
+    </div>
+    
+    <script src="js/cake.js"></script>
+</body>
+</html>
