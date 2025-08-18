@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Message | Madam Jii's Birthday</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/message.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+</head>
+<body>
+    <!-- Music Player Iframe -->
+    <iframe id="musicFrame" src="music-player.html"></iframe>
+
+    <!-- Floating Elements -->
+    <div class="floating-hearts"></div>
+    <div class="floating-balloons"></div>
+    
+    <div class="container">
+        <div class="theme-selector">
+            <button class="theme-option" data-theme="default"></button>
+            <button class="theme-option" data-theme="purple"></button>
+            <button class="theme-option" data-theme="blue"></button>
+            <button class="theme-option" data-theme="gold"></button>
+        </div>
+
+        <h1 class="page-title animate-title">Special Message</h1>
+        <p class="page-subtitle animate-subtitle">Heartfelt wishes for your special day</p>
+        
+        <!-- Name Personalization Form -->
+        <div class="name-form animate-form">
+            <div class="form-group">
+                <label for="recipientName">Recipient's Name:</label>
+                <input type="text" id="recipientName" placeholder="Enter name">
+            </div>
+            <div class="form-group">
+                <label for="senderName">Your Name:</label>
+                <input type="text" id="senderName" placeholder="Enter your name">
+            </div>
+            <button id="updateNames" class="control-btn">
+                <i class="fas fa-check"></i>
+                Update Names
+            </button>
+        </div>
+        
+        <div class="message-container">
+            <div class="message-box">
+                <div class="message-paper animate">
+                    <div class="message-content" id="messageContent">
+                        <p>Dear <span class="recipient-name">Madam Jii</span>,</p>
+                        <p>As you celebrate another year of your wonderful life, I want to express how much you mean to all of us.</p>
+                        <p>Your kindness, wisdom, and generosity have touched so many lives, and your presence makes every moment brighter.</p>
+                        <p>On your special day, I wish you:</p>
+                        <ul class="wish-list">
+                            <li>Health as strong as your spirit</li>
+                            <li>Joy as abundant as your heart</li>
+                            <li>Success as bright as your smile</li>
+                            <li>Love as deep as your compassion</li>
+                        </ul>
+                        <p>May this year bring you countless happy moments, fulfilled dreams, and all the love you deserve.</p>
+                        <p>Happy Birthday to an extraordinary person!</p>
+                        <div class="signature-block">
+                            <p>With all my love and admiration,</p>
+                            <p class="signature"><span class="sender-name">Your's Love</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="message-interactions">
+                    <button id="playMessage" class="control-btn animate-btn" data-delay="0.1">
+                        <i class="fas fa-play"></i>
+                        Play Audio Message
+                    </button>
+                    <div id="audioVisualizer"></div>
+                    <button id="typeMessage" class="control-btn animate-btn" data-delay="0.2">
+                        <i class="fas fa-keyboard"></i>
+                        Typewriter Effect
+                    </button>
+                    <button id="saveMessage" class="control-btn animate-btn" data-delay="0.3">
+                        <i class="fas fa-download"></i>
+                        Download PDF
+                    </button>
+                    <button id="celebrateBtn" class="control-btn animate-btn" data-delay="0.4">
+                        <i class="fas fa-sparkles"></i>
+                        Celebrate!
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-navigation">
+            <a href="videos.html" class="nav-btn animate-nav" data-delay="0.1">
+                <i class="fas fa-arrow-left"></i>
+                Back to Videos
+            </a>
+            <a href="index.html" class="nav-btn next-btn animate-nav" data-delay="0.2">
+                <i class="fas fa-home"></i>
+                Return to Home
+            </a>
+            <a href="memory.html" class="nav-btn quiz-btn animate-nav" data-delay="0.3">
+                <i class="fas fa-question-circle"></i>
+                <span>Birthday Game</span>
+            </a>
+        </div>
+    </div>
+    
+    <script src="js/script.js"></script>
+    <script src="js/message.js"></script>
+</body>
+</html>
