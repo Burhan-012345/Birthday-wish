@@ -493,13 +493,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Global function for social sharing
     window.shareScore = function(platform) {
-        let text = `I scored ${highScore} points in Madam Jii's Birthday Memory Match! Can you beat my score?`;
-        let url = window.location.href;
-        
         if (platform === 'whatsapp') {
-            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`, '_blank');
+            // Redirect to specific WhatsApp number
+            window.open('https://wa.me/7010670262', '_blank');
         } else if (platform === 'instagram') {
-            window.open('https://www.instagram.com/', '_blank');
+            // Redirect to specific Instagram profile
+            window.open('https://www.instagram.com/obito_x_failure_', '_blank');
         }
     };
     
