@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Gallery | Madam Jii</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/media.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+    <div class="theme-selector">
+        <button class="theme-option" data-theme="default"></button>
+        <button class="theme-option" data-theme="purple"></button>
+        <button class="theme-option" data-theme="blue"></button>
+        <button class="theme-option" data-theme="gold"></button>
+    </div>
+
+    <header class="hero">
+        <h1 class="animated-text">Media <span>Gallery</span></h1>
+        <p class="subtitle">Cherished moments captured in time</p>
+        <div class="floating-confetti"></div>
+    </header>
+
+    <div class="media-toggle">
+        <button class="toggle-btn active" data-target="images">
+            <i class="fas fa-images"></i>
+            <span>Photos</span>
+        </button>
+        <button class="toggle-btn" data-target="videos">
+            <i class="fas fa-video"></i>
+            <span>Videos</span>
+        </button>
+    </div>
+
+    <section class="image-gallery active" id="images">
+        <div class="image-grid">
+            <!-- Image 1 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/memory1.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Beautiful Memory</h3>
+                        <p class="image-date">June 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">This moment took my breath away when I first saw it.</p>
+                </div>
+            </div>
+
+            <!-- Image 2 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/photo2.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Sunset Together</h3>
+                        <p class="image-date">July 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">Watching the sunset with you is my favorite time of day.</p>
+                </div>
+            </div>
+
+            <!-- Image 3 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/photo3.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Laughing Together</h3>
+                        <p class="image-date">August 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">Your laughter is my favorite sound in the world.</p>
+                </div>
+            </div>
+
+            <!-- Image 4 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/photo4.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Adventure Time</h3>
+                        <p class="image-date">September 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">Every adventure with you becomes my favorite memory.</p>
+                </div>
+            </div>
+
+            <!-- Image 5 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/photo5.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Quiet Moments</h3>
+                        <p class="image-date">October 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">Even our quiet moments together are filled with love.</p>
+                </div>
+            </div>
+
+            <!-- Image 6 -->
+            <div class="image-card">
+                <div class="image-container">
+                    <img src="assets/images/photo6.jpg" alt="Special Moment" class="gallery-image">
+                    <div class="image-overlay">
+                        <h3 class="image-title">Celebration</h3>
+                        <p class="image-date">November 2023</p>
+                    </div>
+                </div>
+                <div class="image-info">
+                    <p class="image-description">Every day with you feels like a celebration.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="video-gallery" id="videos">
+        <div class="video-grid">
+            <!-- Video 1 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video1.jpg">
+                        <source src="assets/videos/me.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">She's the reason my world feels like a beautiful dream.</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">1:23</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video 2 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video2.jpg">
+                        <source src="assets/videos/me2.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">Every glance, every laugh, every touch—this video holds my heart</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">2:45</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video 3 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video3.jpg">
+                        <source src="assets/videos/me3.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        <h3 class="video-title">Surprise Celebration</h3>
+                        <p class="video-duration">3:12</p>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">Your love is my favorite adventure, and this is just the beginning.</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">3:12</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video 4 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video4.jpg">
+                        <source src="assets/videos/me4.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">I didn't know what forever felt like until I met you.</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">4:30</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video 5 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video5.jpg">
+                        <source src="assets/videos/me5.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">Our best adventures are the ones we take together.</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">2:15</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Video 6 -->
+            <div class="video-card">
+                <div class="video-container">
+                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video6.jpg">
+                        <source src="assets/videos/me6.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-overlay">
+                        <button class="play-overlay-btn">
+                            <i class="fas fa-play"></i>
+                        </button>
+                        
+                    </div>
+                </div>
+                <div class="video-info">
+                    <p class="video-description">Every year with you is better than the last.</p>
+                </div>
+                <div class="video-controls">
+                    <button class="video-play-btn control-btn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <div class="progress-container">
+                        <progress class="video-progress" value="0" max="100"></progress>
+                    </div>
+                    <div class="time-display">
+                        <span class="current-time">0:00</span> / <span class="duration">3:45</span>
+                    </div>
+                    <button class="video-volume-btn control-btn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <div class="volume-slider-container">
+                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                    </div>
+                    <button class="video-fullscreen-btn control-btn">
+                        <i class="fas fa-expand"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation-buttons">
+        <a href="index.html" class="nav-btn home-btn">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="cake.html" class="nav-btn cake-btn">
+            <i class="fas fa-birthday-cake"></i>
+            <span>Virtual Cake</span>
+        </a>
+        <a href="message.html" class="nav-btn message-btn">
+            <i class="fas fa-envelope"></i>
+            <span>Special Message</span>
+        </a>
+        <a href="memory.html" class="nav-btn quiz-btn">
+            <i class="fas fa-question-circle"></i>
+            <span>Birthday Game</span>
+        </a>
+    </div>
+
+    <!-- Image Modal for Fullscreen View -->
+    <div class="image-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <img class="modal-image" src="" alt="Fullscreen Image">
+            <div class="image-caption">
+                <h3 class="modal-title"></h3>
+                <p class="modal-date"></p>
+                <p class="modal-description"></p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="floating-hearts"></div>
+    <script src="js/media.js"></script>
+</body>
+</html>
