@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Message | Madam Jii's Birthday</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/message.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Music Player Iframe -->
+    <iframe id="musicFrame" src="music-player.html"></iframe>
+
+    <!-- Floating Elements -->
+    <div class="floating-hearts"></div>
+    <div class="floating-balloons"></div>
+    
+    <div class="container">
+        <!-- Language Selector -->
+        <div class="language-selector">
+            <button class="lang-btn active" data-lang="en">EN</button>
+            <button class="lang-btn" data-lang="es">ES</button>
+            <button class="lang-btn" data-lang="fr">FR</button>
+            <button class="lang-btn" data-lang="hi">HI</button>
+        </div>
+
+        <div class="theme-selector">
+            <button class="theme-option" data-theme="default"></button>
+            <button class="theme-option" data-theme="purple"></button>
+            <button class="theme-option" data-theme="blue"></button>
+            <button class="theme-option" data-theme="gold"></button>
+        </div>
+
+        <h1 class="page-title animate-title" data-i18n="specialMessage">Special Message</h1>
+        <p class="page-subtitle animate-subtitle" data-i18n="heartfeltWishes">Heartfelt wishes for your special day</p>
+        
+        <!-- Name Personalization Form -->
+        <div class="name-form animate-form">
+            <div class="form-group">
+                <label for="recipientName" data-i18n="recipientsName">Recipient's Name:</label>
+                <input type="text" id="recipientName" placeholder="Enter name" aria-label="Recipient's Name">
+            </div>
+            <div class="form-group">
+                <label for="senderName" data-i18n="yourName">Your Name:</label>
+                <input type="text" id="senderName" placeholder="Enter your name" aria-label="Your Name">
+            </div>
+            <button id="updateNames" class="control-btn" aria-label="Update Names">
+                <i class="fas fa-check"></i>
+                <span data-i18n="updateNames">Update Names</span>
+            </button>
+        </div>
+        
+        <div class="message-container">
+            <div class="message-box">
+                <!-- 3D Message Card -->
+                <div class="message-card">
+                    <div class="card-inner">
+                        <div class="card-front message-paper animate">
+                            <div class="message-content" id="messageContent" contenteditable="true">
+                                <p>Dear <span class="recipient-name">Madam Jii</span>,</p>
+                                <p>As you celebrate another year of your wonderful life, I want to express how much you mean to all of us.</p>
+                                <p>Your kindness, wisdom, and generosity have touched so many lives, and your presence makes every moment brighter.</p>
+                                <p>On your special day, I wish you:</p>
+                                <ul class="wish-list">
+                                    <li>Health as strong as your spirit</li>
+                                    <li>Joy as abundant as your heart</li>
+                                    <li>Success as bright as your smile</li>
+                                    <li>Love as deep as your compassion</li>
+                                </ul>
+                                <p>May this year bring you countless happy moments, fulfilled dreams, and all the love you deserve.</p>
+                                <p>Happy Birthday to an extraordinary person!</p>
+                                <div class="signature-block">
+                                    <p>With all my love and admiration,</p>
+                                    <p class="signature"><span class="sender-name">Your's Love</span></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-back">
+                            <div class="back-content">
+                                <h3 data-i18n="personalVoiceMessage">Personal Voice Message</h3>
+                                <div class="recorder-controls">
+                                    <button id="recordBtn" class="control-btn record-btn">
+                                        <i class="fas fa-microphone"></i>
+                                        <span data-i18n="recordMessage">Record Message</span>
+                                    </button>
+                                    <button id="stopRecordBtn" class="control-btn stop-btn" disabled>
+                                        <i class="fas fa-stop"></i>
+                                        <span data-i18n="stopRecording">Stop Recording</span>
+                                    </button>
+                                    <button id="playRecordedBtn" class="control-btn play-btn" disabled>
+                                        <i class="fas fa-play"></i>
+                                        <span data-i18n="playRecording">Play Recording</span>
+                                    </button>
+                                </div>
+                                <div class="recorder-status">
+                                    <span id="recorderStatus" data-i18n="readyToRecord">Ready to record</span>
+                                    <div class="recording-indicator">
+                                        <span class="recording-dot"></span>
+                                        <span data-i18n="recording">Recording</span>
+                                    </div>
+                                </div>
+                                <div class="encryption-controls">
+                                    <label for="encryptionKey" data-i18n="encryptionKey">Encryption Key:</label>
+                                    <input type="password" id="encryptionKey" placeholder="Enter encryption key">
+                                    <button id="encryptMessage" class="control-btn">
+                                        <i class="fas fa-lock"></i>
+                                        <span data-i18n="encryptMessage">Encrypt Message</span>
+                                    </button>
+                                    <button id="decryptMessage" class="control-btn">
+                                        <i class="fas fa-unlock"></i>
+                                        <span data-i18n="decryptMessage">Decrypt Message</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-controls">
+                    <button id="flipCard" class="control-btn" aria-label="Flip Card">
+                        <i class="fas fa-sync-alt"></i>
+                        <span data-i18n="flipCard">Flip Card</span>
+                    </button>
+                </div>
+                
+                <div class="message-interactions">
+                    <button id="playMessage" class="control-btn animate-btn" data-delay="0.1" aria-label="Play Audio Message">
+                        <i class="fas fa-play"></i>
+                        <span data-i18n="playAudioMessage">Play Audio Message</span>
+                    </button>
+                    <div id="audioVisualizer"></div>
+                    <button id="typeMessage" class="control-btn animate-btn" data-delay="0.2" aria-label="Typewriter Effect">
+                        <i class="fas fa-keyboard"></i>
+                        <span data-i18n="typewriterEffect">Typewriter Effect</span>
+                    </button>
+                    <button id="saveMessage" class="control-btn animate-btn" data-delay="0.3" aria-label="Download PDF">
+                        <i class="fas fa-download"></i>
+                        <span data-i18n="downloadPDF">Download PDF</span>
+                    </button>
+                    <button id="celebrateBtn" class="control-btn animate-btn" data-delay="0.4" aria-label="Celebrate">
+                        <i class="fas fa-sparkles"></i>
+                        <span data-i18n="celebrate">Celebrate!</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page-navigation">
+            <a href="videos.html" class="nav-btn animate-nav" data-delay="0.1" aria-label="Back to Videos">
+                <i class="fas fa-arrow-left"></i>
+                <span data-i18n="backToVideos">Back to Videos</span>
+            </a>
+            <a href="index.html" class="nav-btn next-btn animate-nav" data-delay="0.2" aria-label="Return to Home">
+                <i class="fas fa-home"></i>
+                <span data-i18n="returnToHome">Return to Home</span>
+            </a>
+            <a href="memory.html" class="nav-btn quiz-btn animate-nav" data-delay="0.3" aria-label="Birthday Game">
+                <i class="fas fa-question-circle"></i>
+                <span data-i18n="birthdayGame">Birthday Game</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar">
+        <button id="fontIncrease" class="accessibility-btn" aria-label="Increase Font Size">
+            <i class="fas fa-text-height"></i>
+        </button>
+        <button id="fontDecrease" class="accessibility-btn" aria-label="Decrease Font Size">
+            <i class="fas fa-text-width"></i>
+        </button>
+        <button id="highContrast" class="accessibility-btn" aria-label="High Contrast Mode">
+            <i class="fas fa-adjust"></i>
+        </button>
+        <button id="readAloud" class="accessibility-btn" aria-label="Read Aloud">
+            <i class="fas fa-volume-up"></i>
+        </button>
+    </div>
+    
+    <script src="js/script.js"></script>
+    <script src="js/message.js"></script>
+</body>
+</html>
