@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Special Message | Madam Jii's Birthday</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/message.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollTrigger/1.0.6/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/RecordRTC/5.6.2/RecordRTC.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/wavesurfer.js@7/dist/wavesurfer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+  </head>
+  <body>
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
+    <!-- Music Player Iframe -->
+    <iframe id="musicFrame" src="music-player.html"></iframe>
+
+    <!-- Floating Elements -->
+    <div class="floating-hearts"></div>
+    <div class="floating-balloons"></div>
+
+    <!-- 🌹 Rose Animation Container -->
+    <div id="rose-container"></div>
+
+    <div class="container">
+      <!-- Language Selector -->
+      <div class="language-selector">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="es">ES</button>
+        <button class="lang-btn" data-lang="fr">FR</button>
+        <button class="lang-btn" data-lang="hi">HI</button>
+      </div>
+
+      <div class="theme-selector">
+        <button class="theme-option" data-theme="default"></button>
+        <button class="theme-option" data-theme="purple"></button>
+        <button class="theme-option" data-theme="blue"></button>
+        <button class="theme-option" data-theme="gold"></button>
+      </div>
+
+      <h1 class="page-title animate-title" data-i18n="specialMessage">
+        Special Message
+      </h1>
+      <p class="page-subtitle animate-subtitle" data-i18n="heartfeltWishes">
+        Heartfelt wishes for your special day
+      </p>
+
+      <!-- Name Personalization Form -->
+      <div class="name-form animate-form">
+        <div class="form-group">
+          <label for="recipientName" data-i18n="recipientsName"
+            >Recipient's Name:</label
+          >
+          <input
+            type="text"
+            id="recipientName"
+            placeholder="Enter name"
+            aria-label="Recipient's Name"
+          />
+        </div>
+        <div class="form-group">
+          <label for="senderName" data-i18n="yourName">Your Name:</label>
+          <input
+            type="text"
+            id="senderName"
+            placeholder="Enter your name"
+            aria-label="Your Name"
+          />
+        </div>
+        <button id="updateNames" class="control-btn" aria-label="Update Names">
+          <i class="fas fa-check"></i>
+          <span data-i18n="updateNames">Update Names</span>
+        </button>
+      </div>
+
+      <div class="message-container">
+        <div class="message-box">
+          <!-- Message Card (no flip functionality) -->
+          <div class="message-card">
+            <div class="message-paper animate">
+              <div
+                class="message-content"
+                id="messageContent"
+                contenteditable="true"
+              >
+                <p>Dear <span class="recipient-name">Madam Jii</span>,</p>
+
+                <p>
+                  Aaj ka din mere liye bhi utna hi special hai jitna aapke liye,
+                  kyunki aaj ke din meri duniya mein sabse pyaara insaan aaya
+                  tha. 💖
+                </p>
+
+                <p>
+                  Happy Birthday, meri jaan! 🎂✨ Aap meri life ka woh hissa ho
+                  jiske bina main apne aap ko adhoora samajhta hoon.
+                </p>
+
+                <p>
+                  Aapki muskaan meri duniya ko roshan karti hai, aur aapki awaaz
+                  meri rooh ko sukoon deti hai. 🌸
+                </p>
+
+                <p>
+                  Main hamesha dua karta hoon ki aapki har khushi meri khushi
+                  bane, aur aapka har dard mujh tak aane se pehle khatam ho
+                  jaye. 🙏
+                </p>
+
+                <p>On your special day, I want to promise you:</p>
+                <ul class="wish-list">
+                  <li>
+                    Main hamesha aapke saath rahunga – in every up and down 💕
+                  </li>
+                  <li>
+                    Aapki muskaan kabhi na chhute, chahe duniya badal jaye 😊
+                  </li>
+                  <li>
+                    Har din aapko utna hi special feel karwau jitna aap mere
+                    liye ho 🌟
+                  </li>
+                  <li>
+                    Aapko hamesha unconditional love aur respect deta rahunga 💌
+                  </li>
+                </ul>
+
+                <p>
+                  Aap meri life ki sabse khoobsurat blessing ho, aur main God ka
+                  shukriya karta hoon ki unhone mujhe aap jaisa life partner
+                  diya. 💕
+                </p>
+
+                <p>
+                  May this birthday bring you endless joy, boundless love, and
+                  all the dreams you've ever wished for. Kyunki meri dua hai –
+                  <em>jo aap chaho, woh zaroor mile.</em>
+                </p>
+
+                <p>Happy Birthday, meri pyaari si zindagi! 🎉</p>
+
+                <div class="signature-block">
+                  <p>Forever Yours,</p>
+                  <p class="signature">
+                    <span class="sender-name"
+                      >Tumhara hamesha, Your's Love ❤️</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="message-interactions">
+            <button
+              id="playMessage"
+              class="control-btn animate-btn"
+              data-delay="0.1"
+              aria-label="Play Audio Message"
+            >
+              <i class="fas fa-play"></i>
+              <span data-i18n="playAudioMessage">Play Audio Message</span>
+            </button>
+            <div id="audioVisualizer"></div>
+            <button
+              id="typeMessage"
+              class="control-btn animate-btn"
+              data-delay="0.2"
+              aria-label="Typewriter Effect"
+            >
+              <i class="fas fa-keyboard"></i>
+              <span data-i18n="typewriterEffect">Typewriter Effect</span>
+            </button>
+            <button
+              id="saveMessage"
+              class="control-btn animate-btn"
+              data-delay="0.3"
+              aria-label="Download PDF"
+            >
+              <i class="fas fa-download"></i>
+              <span data-i18n="downloadPDF">Download PDF</span>
+            </button>
+            <button
+              id="celebrateBtn"
+              class="control-btn animate-btn"
+              data-delay="0.4"
+              aria-label="Celebrate"
+            >
+              <i class="fas fa-sparkles"></i>
+              <span data-i18n="celebrate">Celebrate!</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="page-navigation">
+        <a
+          href="videos.html"
+          class="nav-btn animate-nav"
+          data-delay="0.1"
+          aria-label="Back to Videos"
+        >
+          <i class="fas fa-arrow-left"></i>
+          <span data-i18n="backToVideos">Back to Videos</span>
+        </a>
+        <a
+          href="index.html"
+          class="nav-btn next-btn animate-nav"
+          data-delay="0.2"
+          aria-label="Return to Home"
+        >
+          <i class="fas fa-home"></i>
+          <span data-i18n="returnToHome">Return to Home</span>
+        </a>
+        <a
+          href="memory.html"
+          class="nav-btn quiz-btn animate-nav"
+          data-delay="0.3"
+          aria-label="Birthday Game"
+        >
+          <i class="fas fa-question-circle"></i>
+          <span data-i18n="birthdayGame">Birthday Game</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Accessibility Toolbar -->
+    <div class="accessibility-toolbar">
+      <button
+        id="fontIncrease"
+        class="accessibility-btn"
+        aria-label="Increase Font Size"
+      >
+        <i class="fas fa-text-height"></i>
+      </button>
+      <button
+        id="fontDecrease"
+        class="accessibility-btn"
+        aria-label="Decrease Font Size"
+      >
+        <i class="fas fa-text-width"></i>
+      </button>
+      <button
+        id="highContrast"
+        class="accessibility-btn"
+        aria-label="High Contrast Mode"
+      >
+        <i class="fas fa-adjust"></i>
+      </button>
+      <button id="readAloud" class="accessibility-btn" aria-label="Read Aloud">
+        <i class="fas fa-volume-up"></i>
+      </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="js/script.js"></script>
+    <script src="js/message.js"></script>
+  </body>
+</html>
