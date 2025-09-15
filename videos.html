@@ -1,357 +1,675 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Media Gallery | Madam Jii</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/media.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-</head>
-<body>
+    <style>
+      /* Styles for the image modal */
+      .image-modal {
+        display: none;
+        position: fixed;
+        z-index: 1000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        overflow: auto;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
 
+      .image-modal.active {
+        display: flex;
+        opacity: 1;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        position: relative;
+        margin: auto;
+        max-width: 90%;
+        max-height: 90%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .modal-image {
+        max-width: 100%;
+        max-height: 80vh;
+        object-fit: contain;
+        border-radius: 8px;
+      }
+
+      .close-modal {
+        position: absolute;
+        top: -40px;
+        right: 0;
+        color: white;
+        font-size: 35px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .close-modal:hover {
+        color: #ccc;
+      }
+
+      .image-caption {
+        color: white;
+        text-align: center;
+        padding: 15px;
+        max-width: 600px;
+      }
+
+      .modal-title {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+      }
+
+      .modal-date,
+      .modal-description {
+        margin-bottom: 8px;
+        font-size: 1rem;
+      }
+
+      /* Navigation arrows for modal */
+      .modal-nav {
+        position: absolute;
+        top: 50%;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        transform: translateY(-50%);
+        pointer-events: none;
+      }
+
+      .modal-prev,
+      .modal-next {
+        pointer-events: auto;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        border: none;
+        font-size: 2rem;
+        padding: 15px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+
+      .modal-prev:hover,
+      .modal-next:hover {
+        background: rgba(0, 0, 0, 0.8);
+      }
+
+      /* Make images in gallery clickable */
+      .gallery-image {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery-image:hover {
+        transform: scale(1.03);
+      }
+    </style>
+  </head>
+  <body>
     <div class="theme-selector">
-        <button class="theme-option" data-theme="default"></button>
-        <button class="theme-option" data-theme="purple"></button>
-        <button class="theme-option" data-theme="blue"></button>
-        <button class="theme-option" data-theme="gold"></button>
+      <button class="theme-option" data-theme="default"></button>
+      <button class="theme-option" data-theme="purple"></button>
+      <button class="theme-option" data-theme="blue"></button>
+      <button class="theme-option" data-theme="gold"></button>
     </div>
 
     <header class="hero">
-        <h1 class="animated-text">Media <span>Gallery</span></h1>
-        <p class="subtitle">Cherished moments captured in time</p>
-        <div class="floating-confetti"></div>
+      <h1 class="animated-text">Media <span>Gallery</span></h1>
+      <p class="subtitle">Cherished moments captured in time</p>
+      <div class="floating-confetti"></div>
     </header>
 
     <div class="media-toggle">
-        <button class="toggle-btn active" data-target="images">
-            <i class="fas fa-images"></i>
-            <span>Photos</span>
-        </button>
-        <button class="toggle-btn" data-target="videos">
-            <i class="fas fa-video"></i>
-            <span>Videos</span>
-        </button>
+      <button class="toggle-btn active" data-target="images">
+        <i class="fas fa-images"></i>
+        <span>Photos</span>
+      </button>
+      <button class="toggle-btn" data-target="videos">
+        <i class="fas fa-video"></i>
+        <span>Videos</span>
+      </button>
     </div>
 
     <section class="image-gallery active" id="images">
-    <div class="image-grid">
+      <div class="image-grid">
         <!-- Image 1 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images/memory1.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images/memory1.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="0"
+            />
+          </div>
         </div>
 
         <!-- Image 2 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images/memory2.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images/memory2.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="1"
+            />
+          </div>
         </div>
 
         <!-- Image 3 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images/memory3.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images/memory3.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="2"
+            />
+          </div>
         </div>
 
         <!-- Image 4 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images//memory4.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images//memory4.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="3"
+            />
+          </div>
         </div>
 
         <!-- Image 5 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images//memory5.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images//memory5.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="4"
+            />
+          </div>
         </div>
 
         <!-- Image 6 -->
         <div class="image-card">
-            <div class="image-container">
-                <img src="assets/images//memory6.jpg" alt="Special Moment" class="gallery-image">
-            </div>
+          <div class="image-container">
+            <img
+              src="assets/images//memory6.jpg"
+              alt="Special Moment"
+              class="gallery-image"
+              data-index="5"
+            />
+          </div>
         </div>
-    </div>
-</section>
-
+      </div>
+    </section>
 
     <section class="video-gallery" id="videos">
-        <div class="video-grid">
-            <!-- Video 1 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video1.jpg">
-                        <source src="assets/videos/me.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">She's the reason my world feels like a beautiful dream.</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">1:23</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
+      <div class="video-grid">
+        <!-- Video 1 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video1.jpg"
+            >
+              <source src="assets/videos/me.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
             </div>
-
-            <!-- Video 2 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video2.jpg">
-                        <source src="assets/videos/me2.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">Every glance, every laugh, every touch—this video holds my heart</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">2:45</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
+          </div>
+          <div class="video-info"></div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
             </div>
-
-            <!-- Video 3 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video3.jpg">
-                        <source src="assets/videos/me3.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        <h3 class="video-title">Surprise Celebration</h3>
-                        <p class="video-duration">3:12</p>
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">Your love is my favorite adventure, and this is just the beginning.</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">3:12</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">1:23</span>
             </div>
-
-            <!-- Video 4 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video4.jpg">
-                        <source src="assets/videos/me4.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">I didn't know what forever felt like until I met you.</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">4:30</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
             </div>
-
-            <!-- Video 5 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video5.jpg">
-                        <source src="assets/videos/me5.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">Our best adventures are the ones we take together.</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">2:15</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
-            </div>
-
-            <!-- Video 6 -->
-            <div class="video-card">
-                <div class="video-container">
-                    <video class="video-player" preload="metadata" poster="assets/thumbnails/video6.jpg">
-                        <source src="assets/videos/me6.mp4" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                    <div class="video-overlay">
-                        <button class="play-overlay-btn">
-                            <i class="fas fa-play"></i>
-                        </button>
-                        
-                    </div>
-                </div>
-                <div class="video-info">
-                    <p class="video-description">Every year with you is better than the last.</p>
-                </div>
-                <div class="video-controls">
-                    <button class="video-play-btn control-btn">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <div class="progress-container">
-                        <progress class="video-progress" value="0" max="100"></progress>
-                    </div>
-                    <div class="time-display">
-                        <span class="current-time">0:00</span> / <span class="duration">3:45</span>
-                    </div>
-                    <button class="video-volume-btn control-btn">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                    <div class="volume-slider-container">
-                        <input type="range" class="volume-slider" min="0" max="1" step="0.1" value="1">
-                    </div>
-                    <button class="video-fullscreen-btn control-btn">
-                        <i class="fas fa-expand"></i>
-                    </button>
-                </div>
-            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
         </div>
+
+        <!-- Video 2 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video2.jpg"
+            >
+              <source src="assets/videos/me2.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-info"></div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
+            </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">2:45</span>
+            </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video3.jpg"
+            >
+              <source src="assets/videos/me3.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
+            </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">3:12</span>
+            </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video4.jpg"
+            >
+              <source src="assets/videos/me4.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
+            </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">4:30</span>
+            </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video 5 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video5.jpg"
+            >
+              <source src="assets/videos/me5.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
+            </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">2:15</span>
+            </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Video 6 -->
+        <div class="video-card">
+          <div class="video-container">
+            <video
+              class="video-player"
+              preload="metadata"
+              poster="assets/thumbnails/video6.jpg"
+            >
+              <source src="assets/videos/me6.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+            <div class="video-overlay">
+              <button class="play-overlay-btn">
+                <i class="fas fa-play"></i>
+              </button>
+            </div>
+          </div>
+          <div class="video-controls">
+            <button class="video-play-btn control-btn">
+              <i class="fas fa-play"></i>
+            </button>
+            <div class="progress-container">
+              <progress class="video-progress" value="0" max="100"></progress>
+            </div>
+            <div class="time-display">
+              <span class="current-time">0:00</span> /
+              <span class="duration">3:45</span>
+            </div>
+            <button class="video-volume-btn control-btn">
+              <i class="fas fa-volume-up"></i>
+            </button>
+            <div class="volume-slider-container">
+              <input
+                type="range"
+                class="volume-slider"
+                min="0"
+                max="1"
+                step="0.1"
+                value="1"
+              />
+            </div>
+            <button class="video-fullscreen-btn control-btn">
+              <i class="fas fa-expand"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
 
     <div class="navigation-buttons">
-        <a href="index.html" class="nav-btn home-btn">
-            <i class="fas fa-home"></i>
-            <span>Home</span>
-        </a>
-        <a href="cake.html" class="nav-btn cake-btn">
-            <i class="fas fa-birthday-cake"></i>
-            <span>Virtual Cake</span>
-        </a>
-        <a href="message.html" class="nav-btn message-btn">
-            <i class="fas fa-envelope"></i>
-            <span>Special Message</span>
-        </a>
-        <a href="memory.html" class="nav-btn quiz-btn">
-            <i class="fas fa-question-circle"></i>
-            <span>Birthday Game</span>
-        </a>
+      <a href="index.html" class="nav-btn home-btn">
+        <i class="fas fa-home"></i>
+        <span>Home</span>
+      </a>
+      <a href="cake.html" class="nav-btn cake-btn">
+        <i class="fas fa-birthday-cake"></i>
+        <span>Virtual Cake</span>
+      </a>
+      <a href="message.html" class="nav-btn message-btn">
+        <i class="fas fa-envelope"></i>
+        <span>Special Message</span>
+      </a>
+      <a href="memory.html" class="nav-btn quiz-btn">
+        <i class="fas fa-question-circle"></i>
+        <span>Birthday Game</span>
+      </a>
     </div>
 
     <!-- Image Modal for Fullscreen View -->
     <div class="image-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <img class="modal-image" src="" alt="Fullscreen Image">
-            <div class="image-caption">
-                <h3 class="modal-title"></h3>
-                <p class="modal-date"></p>
-                <p class="modal-description"></p>
-            </div>
+      <div class="modal-nav">
+        <button class="modal-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="modal-next"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <img class="modal-image" src="" alt="Fullscreen Image" />
+        <div class="image-caption">
+          <h3 class="modal-title">Special Memory</h3>
+          <p class="modal-date">A beautiful moment captured forever</p>
+          <p class="modal-description">
+            This memory holds a special place in our hearts
+          </p>
         </div>
+      </div>
     </div>
-    
+
     <div class="floating-hearts"></div>
+    <script>
+      // Image Fullscreen Functionality
+      document.addEventListener("DOMContentLoaded", function () {
+        const galleryImages = document.querySelectorAll(".gallery-image");
+        const modal = document.querySelector(".image-modal");
+        const modalImage = document.querySelector(".modal-image");
+        const closeModal = document.querySelector(".close-modal");
+        const prevBtn = document.querySelector(".modal-prev");
+        const nextBtn = document.querySelector(".modal-next");
+        const modalTitle = document.querySelector(".modal-title");
+        const modalDate = document.querySelector(".modal-date");
+        const modalDescription = document.querySelector(".modal-description");
+
+        let currentIndex = 0;
+        const images = Array.from(galleryImages);
+
+        // Image data for captions (you can customize this)
+        const imageData = [
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+          {
+            title: "",
+            date: "",
+            description: "",
+          },
+        ];
+
+        // Open modal when image is clicked
+        galleryImages.forEach((image, index) => {
+          image.addEventListener("click", () => {
+            currentIndex = index;
+            updateModal();
+            modal.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+          });
+        });
+
+        // Close modal
+        closeModal.addEventListener("click", () => {
+          modal.classList.remove("active");
+          document.body.style.overflow = ""; // Re-enable scrolling
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener("click", (e) => {
+          if (e.target === modal) {
+            modal.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        });
+
+        // Navigation between images
+        prevBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          currentIndex = (currentIndex - 1 + images.length) % images.length;
+          updateModal();
+        });
+
+        nextBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          currentIndex = (currentIndex + 1) % images.length;
+          updateModal();
+        });
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+          if (modal.classList.contains("active")) {
+            if (e.key === "Escape") {
+              modal.classList.remove("active");
+              document.body.style.overflow = "";
+            } else if (e.key === "ArrowLeft") {
+              currentIndex = (currentIndex - 1 + images.length) % images.length;
+              updateModal();
+            } else if (e.key === "ArrowRight") {
+              currentIndex = (currentIndex + 1) % images.length;
+              updateModal();
+            }
+          }
+        });
+
+        // Update modal content
+        function updateModal() {
+          const image = images[currentIndex];
+          modalImage.src = image.src;
+          modalImage.alt = image.alt;
+
+          // Update caption if we have data for this image
+          if (currentIndex < imageData.length) {
+            modalTitle.textContent = imageData[currentIndex].title;
+            modalDate.textContent = imageData[currentIndex].date;
+            modalDescription.textContent = imageData[currentIndex].description;
+          }
+        }
+      });
+    </script>
     <script src="js/media.js"></script>
-</body>
+  </body>
 </html>
